@@ -15,7 +15,7 @@ video link : Demonstration video link : https://drive.google.com/file/d/1jaU6E9B
 ## 🌐 Live Deployment
 
 - **Frontend (Vercel)**: https://nagar-help.vercel.app
-- **Backend API (Render)**: https://nagarhelp-backend.onrender.com
+- **Backend API (Render)**: https://nagarhelp-backend.onrender.com/health *(health check — the API has no homepage, this confirms the server is live)*
 
 > Note: The backend runs on Render's free tier, which spins down after inactivity — the first request after idle time may take 30-50 seconds to respond while the instance wakes up.
 
