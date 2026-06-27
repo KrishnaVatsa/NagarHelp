@@ -2,12 +2,22 @@
 
 > **Comprehensive platform combining emergency response, community care, and civic issue reporting**
 
-**Hackathon:** Bharat Academix CodeQuest  
+**Hackathon:** AI NEXUS-SRM CONNECTS  
 **Team:** HackSmith
 
 ![Tech Stack](https://img.shields.io/badge/Stack-MERN%20%2B%20Firebase%20%2B%20Socket.io%20%2B%20Gemini-blue)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
+
+🔗 **Live Project**: [https://nagar-help.vercel.app](https://nagar-help.vercel.app)
+
 video link : Demonstration video link : https://drive.google.com/file/d/1jaU6E9BTgL9wB1zL0auArJM1zJZrhN7S/view?usp=sharing
+
+## 🌐 Live Deployment
+
+- **Frontend (Vercel)**: https://nagar-help.vercel.app
+- **Backend API (Render)**: https://nagarhelp-backend.onrender.com
+
+> Note: The backend runs on Render's free tier, which spins down after inactivity — the first request after idle time may take 30-50 seconds to respond while the instance wakes up.
 
 ## 🎯 Overview
 
@@ -32,6 +42,7 @@ NagarHelp combines two powerful systems into one unified platform:
 ### 📱 Civic Issue Reporting
 - **WhatsApp Bot Integration**: Report issues without downloading the app by simply texting our WhatsApp Bot (powered by Whapi.cloud).
 - **AI Multimodal Verification**: Images submitted via WhatsApp are instantly analyzed by Google Gemini 1.5 Flash Vision to verify authenticity and reject fake reports.
+- **Custom-Trained Image Classifier**: A MobileNetV2-based TensorFlow.js model, trained on 28,000+ images across pothole, garbage, water-related issues, and negative samples, runs server-side to verify that uploaded photos genuinely match the reported issue category.
 - **Live Admin Dashboard**: Real-time incident map with filters and verification controls for authorities.
 - **Automated Citizen Updates**: Receive automatic WhatsApp notifications when the Admin verifies or resolves your reported issue.
 - **Community Engagement**: Upvote, comment, and track issue resolution on the public feed.
@@ -54,6 +65,7 @@ NagarHelp combines two powerful systems into one unified platform:
 | **Real-Time** | Socket.io | Low-latency live notifications & dispatcher |
 | **Authentication** | Firebase Auth + Admin SDK | Secure user onboarding & token verification |
 | **AI Engine** | Google Gemini 1.5 Flash | Multimodal verification and Crisis Chatbot |
+| **Image Classification** | TensorFlow.js (MobileNetV2 transfer learning) | Custom-trained model (28,000+ images) for category-matching civic issue photo verification |
 | **File Storage** | Firebase Storage | Fast CDN delivery for issue images |
 | **Messaging** | Whapi.cloud API | Bidirectional WhatsApp bot & broadcasting |
 
@@ -121,9 +133,11 @@ cd frontend
 npm run dev
 ```
 
-The application will be available at:
+The application will be available locally at:
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:5000
+
+(For the live deployed version, see [Live Deployment](#-live-deployment) above.)
 
 ---
 
@@ -152,4 +166,4 @@ The application will be available at:
 
 ---
 
-**Made with ❤️ by Team HackSmith for Bharat Academix CodeQuest**
+**Made with ❤️ by Team HackSmith for AI NEXUS-SRM CONNECTS**
