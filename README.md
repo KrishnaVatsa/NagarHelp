@@ -46,7 +46,7 @@ NagarHelp combines two powerful systems into one unified platform:
 - **Live Admin Dashboard**: Real-time incident map with filters and verification controls for authorities.
 - **Automated Citizen Updates**: Receive automatic WhatsApp notifications when the Admin verifies or resolves your reported issue.
 - **Community Engagement**: Upvote, comment, and track issue resolution on the public feed.
-- **Smart Categorization**: Auto-categorize issues into Pothole, Garbage, Safety, Waterlogging, Streetlight, or Drainage.
+- **Smart Categorization**: Auto-categorize issues into Pothole, Garbage, Safety, Waterlogging, Streetlight,or Drainage.
 
 ### 🔐 Shared Features
 - **Secure Authentication**: Passwordless Phone/Google login powered by Firebase Auth, with secure JWT token verification on the backend.
