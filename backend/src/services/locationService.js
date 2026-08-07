@@ -9,7 +9,6 @@ export const updateUserLocation = async (userId, longitude, latitude) => {
     timestamp: Date.now()
   });
   
-
   await User.findByIdAndUpdate(userId, { isActive: true });
 };
 

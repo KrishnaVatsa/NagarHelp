@@ -11,4 +11,5 @@ router.post('/', addResource);
 router.get('/nearby', getNearbyResources);
 router.get('/', getAllResources);
 
+
 export default router;

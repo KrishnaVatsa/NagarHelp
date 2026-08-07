@@ -8,7 +8,6 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-
 // In-memory OTP store (in production, use Redis)
 const otpStore = new Map();
 

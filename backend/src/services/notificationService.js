@@ -10,6 +10,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+
 /**
  * Send WhatsApp notification via Whapi.cloud
  */

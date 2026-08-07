@@ -12,6 +12,7 @@ let model = null;
 const MODEL_DIR = path.join(__dirname, '../../models');
 const MODEL_URL = `file://${path.join(MODEL_DIR, 'model.json')}`;
 
+
 // Model contract (4-class classifier, trained via Kaggle notebook v3):
 // - Input: 224x224x3, pixels scaled to [0, 1] (rescale=1./255)
 // - Output: 4-unit softmax. Classes assigned alphabetically by

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+
 const whatsappLogSchema = new mongoose.Schema(
   {
     messageId: String,

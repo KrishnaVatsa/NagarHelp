@@ -1,6 +1,7 @@
 import { auth } from '../services/firebaseAdmin.js';
 import { User } from '../models/user.model.js';
 
+
 export const verifyFirebaseToken = async (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;

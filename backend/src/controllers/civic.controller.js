@@ -6,7 +6,6 @@ import { uploadFile, deleteFile } from '../services/storageService.js';
 import { analyzeMultipleCivicImages, summarizeAnalysis, loadCivicDetectorModel } from '../services/civicDetectorService.js';
 import { notifyAdminsAboutNewIssue, notifyUserAboutSubmission } from '../services/notificationService.js';
 
-
 // Create a new civic issue
 export const createCivicIssue = asyncHandler(async (req, res) => {
   const { title, description, category, location, address } = req.body;

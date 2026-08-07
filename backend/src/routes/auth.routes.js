@@ -18,6 +18,7 @@ router.post('/logout', authenticate, logout);
 router.get('/profile', authenticate, getProfile);
 router.put('/profile', authenticate, updateProfile);
 
+
 // Guardian Mode
 router.get('/guardians', authenticate, getGuardians);
 router.post('/guardians', authenticate, addGuardian);

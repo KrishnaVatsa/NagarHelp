@@ -13,6 +13,7 @@ const SKILL_CRISIS_MAP = {
   other: ['first_aid', 'security']
 };
 
+
 export const findBestResponders = async (longitude, latitude, crisisType, radiusMeters = 1000, batchSize = 10) => {
   const radiusKm = Number(radiusMeters) > 0
     ? Number(radiusMeters) / 1000

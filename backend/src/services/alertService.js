@@ -17,6 +17,7 @@ const generativeModel = vertex_ai.getGenerativeModel({
     },
 });
 
+
 /**
  * Generate a concise civic alert from report data
  * @param {Object} reportData - The report information

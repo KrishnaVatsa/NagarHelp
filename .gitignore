@@ -15,7 +15,6 @@ Thumbs.db
 
 # Environment variables
 .env
-
 # Build folders
 build/
 dist/

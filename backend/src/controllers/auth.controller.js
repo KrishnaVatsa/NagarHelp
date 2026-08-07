@@ -3,7 +3,6 @@ import { ApiError } from '../utils/ApiError.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
-
 // Try to import Firebase Admin auth — it may fail if not configured
 let adminAuth = null;
 const getAdminAuth = async () => {

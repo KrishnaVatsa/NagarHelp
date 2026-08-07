@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-
 const civicBroadcastSchema = new mongoose.Schema(
   {
     civicIssueId: {

@@ -3,7 +3,6 @@ import { ApiError } from '../utils/ApiError.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { askCrisisAssistant } from '../utils/aiService.js';
 
-
 export const chat = asyncHandler(async (req, res) => {
   const { crisisType, question, conversationHistory } = req.body;
 

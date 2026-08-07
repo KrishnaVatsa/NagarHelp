@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
+
 let serviceAccount;
 try {
   if (process.env.FIREBASE_SERVICE_ACCOUNT) {

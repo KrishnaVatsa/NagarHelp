@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+
 const civicIssueSchema = new mongoose.Schema(
   {
     title: {

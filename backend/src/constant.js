@@ -8,6 +8,7 @@ export const CRISIS_TYPES = {
   OTHER: 'other'
 };
 
+
 export const SOS_STATUS = {
   ACTIVE: 'active',
   RESPONDING: 'responding',

@@ -15,6 +15,7 @@ import { upload } from '../middlewares/multer.middleware.js';
 
 const router = express.Router();
 
+
 // Public routes
 router.get('/nearby', getNearbyIssues);
 router.get('/stats', getCivicIssueStats);

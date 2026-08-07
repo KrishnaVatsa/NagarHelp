@@ -1,6 +1,7 @@
 import { verifyFirebaseToken } from './firebaseAuth.middleware.js';
 import { ApiError } from '../utils/ApiError.js';
 
+
 export const verifyJWT = verifyFirebaseToken;
 export const authenticate = verifyFirebaseToken;
 

@@ -10,6 +10,7 @@ import { verifyJWT } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
+
 // Webhook endpoint (no auth required - Whapi will call this)
 router.post('/webhook', handleWhatsappWebhook);
 

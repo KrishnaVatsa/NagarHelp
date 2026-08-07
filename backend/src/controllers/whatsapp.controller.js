@@ -6,7 +6,6 @@ import CivicIssue from '../models/civicIssue.model.js';
 import { User } from '../models/user.model.js';
 import axios from 'axios';
 
-
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 export const sendWhatsappMessage = async (phoneNumber, message) => {

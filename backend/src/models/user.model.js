@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import { USER_ROLES, SKILL_TYPES } from '../constant.js';
 
+
 const userSchema = new mongoose.Schema({
   firebaseUid: {
     type: String,

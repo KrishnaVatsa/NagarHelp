@@ -9,6 +9,7 @@ import { findBestResponders } from '../services/dispatchService.js';
 import { SOS_STATUS } from '../constant.js';
 import { sendWhatsappMessage } from '../controllers/whatsapp.controller.js';
 
+
 let ioInstance = null;
 
 export const emitSOSResolved = ({ sosId, resolvedAt, debrief, broadcasterId, responderIds = [] }) => {

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { CRISIS_TYPES, SOS_STATUS } from '../constant.js';
 
+
 const sosSchema = new mongoose.Schema({
   broadcaster: {
     type: mongoose.Schema.Types.ObjectId,
