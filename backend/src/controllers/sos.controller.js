@@ -8,6 +8,7 @@ import { generateCrisisGuidance, generateEmergencySummary, generateDebriefPrompt
 import { SOS_STATUS } from '../constant.js';
 import { emitSOSResolved, emitSOSGuidanceReady } from '../socket/index.js';
 
+
 export const createSOS = asyncHandler(async (req, res) => {
   const { crisisType, longitude, latitude, address, isAnonymous, broadcastRadius } = req.body;
 
