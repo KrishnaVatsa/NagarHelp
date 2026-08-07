@@ -54,6 +54,7 @@ if (!admin.apps.length) {
     }
 }
 
+
 const db = admin.database(); // Realtime Database
 const auth = admin.auth();
 
