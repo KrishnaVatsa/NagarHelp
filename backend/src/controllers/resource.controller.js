@@ -6,6 +6,7 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 export const addResource = asyncHandler(async (req, res) => {
   const { name, type, longitude, latitude, address, description } = req.body;
 
+  
   const resource = await Resource.create({
     name,
     type,
