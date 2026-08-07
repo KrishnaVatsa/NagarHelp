@@ -2,8 +2,8 @@
 
 > **Comprehensive platform combining emergency response, community care, and civic issue reporting**
 
-**Hackathon:** AI NEXUS-SRM CONNECTS  
-**Team:** HackSmith
+**Hackathon:** AlgOlympia 
+**Team:** AlgoForge
 
 ![Tech Stack](https://img.shields.io/badge/Stack-MERN%20%2B%20Firebase%20%2B%20Socket.io%20%2B%20Gemini-blue)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
@@ -166,4 +166,4 @@ The application will be available locally at:
 
 ---
 
-**Made with ❤️ by Team HackSmith for AI NEXUS-SRM CONNECTS**
+**Made with ❤️ by AlgoForge for AlgOlympia**
