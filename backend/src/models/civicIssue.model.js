@@ -68,6 +68,14 @@ const civicIssueSchema = new mongoose.Schema(
       type: [String],
       default: []
     },
+    attachments: {
+      type: [{
+        url: String,
+        label: String,
+        uploadedAt: { type: Date, default: Date.now }
+      }],
+      default: []
+    },
     audio: String,
     verified: {
       type: Boolean,
