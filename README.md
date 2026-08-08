@@ -18,6 +18,11 @@ video link : Demonstration video link : https://drive.google.com/file/d/1jaU6E9B
 
 > Note: The backend runs on Render's free tier, which spins down after inactivity — the first request after idle time may take 30-50 seconds to respond while the instance wakes up.
 
+## 🔥Model for image classification
+
+- **Source link (EfficientNetB0)**: https://drive.google.com/drive/folders/18ZYthCe_LD_QOc-TIPEoBX_PfSWz6dht?usp=drive_link
+> Note:The trained model is not included in this repository due to GitHub's file-size limitations. Please download it from the source link above and place it in the designated model directory.
+
 ## 🎯 Overview
 
 NagarHelp combines two powerful systems into one unified platform:
