@@ -168,30 +168,45 @@ export const createCivicIssue = asyncHandler(async (req, res) => {
   const civicIssue = await CivicIssue.create(civicIssueData);
 
    // Trigger a real-time alert for critical/high-priority reports
+  // if (shouldTriggerAlert(civicIssue)) {
+  //   try {
+  //     await triggerAlert({
+  //       type: 'high_priority_issue',
+  //       severity: 'High',
+  //       message: `High priority ${civicIssue.category} report: "${civicIssue.title}" at ${civicIssue.location.address || 'unknown location'}`,
+  //       relatedIssue: civicIssue._id
+  //     });
+  //   } catch (alertError) {
+  //     console.error('Alert trigger error (non-blocking):', alertError.message);
+  //   }
+  // }
+
   if (shouldTriggerAlert(civicIssue)) {
-    try {
-      await triggerAlert({
-        type: 'high_priority_issue',
-        severity: 'High',
-        message: `High priority ${civicIssue.category} report: "${civicIssue.title}" at ${civicIssue.location.address || 'unknown location'}`,
-        relatedIssue: civicIssue._id
-      });
-    } catch (alertError) {
-      console.error('Alert trigger error (non-blocking):', alertError.message);
-    }
+    triggerAlert({
+      type: 'high_priority_issue',
+      severity: 'High',
+      message: `High priority ${civicIssue.category} report: "${civicIssue.title}" at ${civicIssue.location.address || 'unknown location'}`,
+      relatedIssue: civicIssue._id
+    }).catch((err) => console.error('Alert trigger error (non-blocking):', err.message));
   }
 
   // Populate user info for response and notifications
   await civicIssue.populate('reportedBy', 'name email phone');
 
-  // Send notifications to admins and user
-  try {
-    await notifyAdminsAboutNewIssue(civicIssue, civicIssue.reportedBy);
-    await notifyUserAboutSubmission(civicIssue.reportedBy, civicIssue);
-  } catch (notificationError) {
-    console.error('Notification error (non-blocking):', notificationError.message);
-    // Don't fail the request if notifications fail
-  }
+  // // Send notifications to admins and user
+  // try {
+  //   await notifyAdminsAboutNewIssue(civicIssue, civicIssue.reportedBy);
+  //   await notifyUserAboutSubmission(civicIssue.reportedBy, civicIssue);
+  // } catch (notificationError) {
+  //   console.error('Notification error (non-blocking):', notificationError.message);
+  //   // Don't fail the request if notifications fail
+  // }
+  // Send notifications to admins and user (fire-and-forget so slow/hanging
+  // email or WhatsApp calls never block the response to the frontend)
+  notifyAdminsAboutNewIssue(civicIssue, civicIssue.reportedBy)
+    .catch((err) => console.error('Admin notification error (non-blocking):', err.message));
+  notifyUserAboutSubmission(civicIssue.reportedBy, civicIssue)
+    .catch((err) => console.error('User notification error (non-blocking):', err.message));
 
   return res.status(201).json(
     new ApiResponse(201, civicIssue, 'Civic issue reported successfully')
