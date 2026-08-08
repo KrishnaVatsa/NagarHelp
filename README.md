@@ -54,6 +54,26 @@ NagarHelp combines two powerful systems into one unified platform:
 
 ---
 
+## 🏆 Challenges - Bounties
+
+Additional platform capabilities built to satisfy hackathon round bounty requirements, layered on top of the core Emergency Response and Civic Issue systems above.
+
+### Round 2 Bounties
+
+- **Structured API Validation Layer** — Server-side validation on civic issue submission (title length, category, valid lat/lng), automatic duplicate-report detection (same category within ~75m in the last 7 days), and quality/suspicion flags (e.g. `suspicious_image`, `no_description`, `possible_duplicate`) attached to each report.
+- **Status Workflow with Accountability Log** — Every status transition (Draft → Pending → In-Progress → Resolved/Rejected) is recorded with actor, note, and timestamp in a `statusHistory` audit trail, exposed via `GET /api/civic/:issueId/history`.
+- **Hotspot Analytics and Trend Dashboard** — Geospatial aggregation clusters nearby reports into grid cells for map-based hotspot visualization (`GET /api/analytics/hotspots`), plus daily/category trend data for charting (`GET /api/analytics/trends`).
+- **Real-Time Alerting for Critical Events** — High-priority and safety-critical reports automatically trigger a WhatsApp/email alert to admins, with persistent alert records, read/unread dashboard state, and automatic + manual retry on delivery failure (`GET /api/alerts`, `PATCH /api/alerts/:alertId/read`, `POST /api/alerts/:alertId/retry`).
+- **Prediction and Resource Allocation Engine (Elite)** — An explainable prioritization engine that ranks open civic issues using four transparent, weighted factors — severity, report age, community demand (upvotes), and duplicate-report density — returning a numeric score plus a human-readable explanation for each ranked issue (`GET /api/ranking`).
+
+### Round 3 Bounties
+
+- **Attachments on Incidents** — Citizens or reviewers can attach an additional supporting file or link to an existing incident, persisted on the record and shown in the issue detail view (`POST /api/civic/:issueId/attachment`).
+- **Role-Aware Incident Filters** — A single endpoint scopes visible incidents to the requesting user's role (citizen, admin, reviewer, investigator, authority, hospital), returning a filtered list with a visible count (`GET /api/civic/my-view`).
+- **Project-Specific Report Export** — Generates a downloadable report for a selected incident, reusing its existing captured fields, status history, flags, and attachments — available as a printable HTML report or a CSV file (`GET /api/civic/:issueId/export/html`, `GET /api/civic/:issueId/export/csv`).
+
+---
+
 ## 🛠️ Tech Stack
 
 | Component | Technology | Purpose |
