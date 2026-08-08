@@ -11,6 +11,9 @@ import chatbotRoutes from './routes/chatbot.routes.js';
 import civicRoutes from './routes/civic.routes.js';
 import whatsappRoutes from './routes/whatsapp.routes.js';
 import { loadCivicDetectorModel } from './services/civicDetectorService.js';
+import analyticsRoutes from './routes/analytics.routes.js';
+import alertRoutes from './routes/alert.routes.js';
+import rankingRoutes from './routes/ranking.routes.js';
 
 const app = express();
 
@@ -43,6 +46,9 @@ app.use('/api/ai', chatbotRoutes);
 // Civic Issue Reporting routes
 app.use('/api/civic', civicRoutes);
 app.use('/api/whatsapp', whatsappRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/alerts', alertRoutes);
+app.use('/api/ranking', rankingRoutes);
 
 app.get('/health', (req, res) => {
   res.json({

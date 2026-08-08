@@ -119,7 +119,44 @@ const civicIssueSchema = new mongoose.Schema(
       enum: ['WhatsApp', 'Web', 'Mobile', 'Other'],
       default: 'Web'
     },
-    whatsappMessageId: String
+    whatsappMessageId: String,
+
+    // ── Added for Structured API Validation Layer (hackathon Core 1) ──
+    isDuplicate: {
+      type: Boolean,
+      default: false
+    },
+    duplicateOf: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'CivicIssue',
+      default: null
+    },
+    flags: {
+      type: [String], // e.g. ['suspicious_image', 'no_description', 'possible_duplicate']
+      default: []
+    },
+
+    // ── Added for Status Workflow + Accountability Log (hackathon Core 2) ──
+    statusHistory: {
+      type: [
+        {
+          status: {
+            type: String,
+            enum: ['Draft', 'Pending', 'In-Progress', 'Resolved', 'Rejected']
+          },
+          actor: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+          },
+          note: String,
+          timestamp: {
+            type: Date,
+            default: Date.now
+          }
+        }
+      ],
+      default: []
+    }
   },
   {
     timestamps: true

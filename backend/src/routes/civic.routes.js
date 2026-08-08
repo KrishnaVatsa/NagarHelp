@@ -8,7 +8,8 @@ import {
   addCommentToCivicIssue,
   deleteCivicIssue,
   getNearbyIssues,
-  getCivicIssueStats
+  getCivicIssueStats,
+  getCivicIssueStatusHistory
 } from '../controllers/civic.controller.js';
 import { verifyJWT } from '../middlewares/auth.middleware.js';
 import { upload } from '../middlewares/multer.middleware.js';
@@ -27,6 +28,7 @@ router.use(verifyJWT);
 
 router.post('/', upload.array('images', 5), createCivicIssue);
 router.patch('/:issueId', updateCivicIssue);
+router.get('/:issueId/history', getCivicIssueStatusHistory);
 router.post('/:issueId/upvote', upvoteCivicIssue);
 router.post('/:issueId/comment', addCommentToCivicIssue);
 router.delete('/:issueId', deleteCivicIssue);

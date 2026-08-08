@@ -5,6 +5,8 @@ import { ApiError } from '../utils/ApiError.js';
 import { uploadFile, deleteFile } from '../services/storageService.js';
 import { analyzeMultipleCivicImages, summarizeAnalysis, loadCivicDetectorModel } from '../services/civicDetectorService.js';
 import { notifyAdminsAboutNewIssue, notifyUserAboutSubmission } from '../services/notificationService.js';
+import { validateIssueInput, findPotentialDuplicate, computeFlags } from '../utils/civicIssueValidation.js';
+import { triggerAlert, shouldTriggerAlert } from '../services/realtimeAlertService.js';
 
 // Create a new civic issue
 export const createCivicIssue = asyncHandler(async (req, res) => {
@@ -26,6 +28,12 @@ export const createCivicIssue = asyncHandler(async (req, res) => {
 
   if (!parsedLocation.latitude || !parsedLocation.longitude) {
     throw new ApiError(400, 'Location must include valid latitude and longitude');
+  }
+
+  // ── Structured API Validation Layer ──────────────────────────────
+  const validationErrors = validateIssueInput({ title, category, parsedLocation });
+  if (validationErrors.length > 0) {
+    throw new ApiError(400, validationErrors.join('; '));
   }
 
   const civicIssueData = {
@@ -109,7 +117,7 @@ export const createCivicIssue = asyncHandler(async (req, res) => {
         summary: 'Analysis failed - manual review required',
         analyzedAt: new Date()
       };
-      
+
       // Try to upload images anyway
       const uploadPromises = req.files.map((file) =>
         uploadFile(file.path, 'civic-issues').catch(() => null)
@@ -121,7 +129,57 @@ export const createCivicIssue = asyncHandler(async (req, res) => {
     }
   }
 
+  // ── Duplicate Detection ───────────────────────────────────────────
+  const potentialDuplicate = await findPotentialDuplicate({
+    category,
+    longitude: parsedLocation.longitude,
+    latitude: parsedLocation.latitude
+  });
+
+  if (potentialDuplicate) {
+    civicIssueData.isDuplicate = true;
+    civicIssueData.duplicateOf = potentialDuplicate._id;
+  }
+
+  // ── Suspicious / Quality Flags ────────────────────────────────────
+  const flags = computeFlags({
+    aiAnalysis: civicIssueData.aiAnalysis,
+    description,
+    hasImages: civicIssueData.images && civicIssueData.images.length > 0,
+    isAiSupportedCategory
+  });
+
+  if (potentialDuplicate) {
+    flags.push('possible_duplicate');
+  }
+
+  civicIssueData.flags = flags;
+
+  // ── Status History (initial entry) ───────────────────────────────
+  civicIssueData.statusHistory = [
+    {
+      status: 'Pending',
+      actor: req.user._id,
+      note: 'Issue reported',
+      timestamp: new Date()
+    }
+  ];
+
   const civicIssue = await CivicIssue.create(civicIssueData);
+
+   // Trigger a real-time alert for critical/high-priority reports
+  if (shouldTriggerAlert(civicIssue)) {
+    try {
+      await triggerAlert({
+        type: 'high_priority_issue',
+        severity: 'High',
+        message: `High priority ${civicIssue.category} report: "${civicIssue.title}" at ${civicIssue.location.address || 'unknown location'}`,
+        relatedIssue: civicIssue._id
+      });
+    } catch (alertError) {
+      console.error('Alert trigger error (non-blocking):', alertError.message);
+    }
+  }
 
   // Populate user info for response and notifications
   await civicIssue.populate('reportedBy', 'name email phone');
@@ -221,7 +279,7 @@ export const getCivicIssueById = asyncHandler(async (req, res) => {
 // Update civic issue
 export const updateCivicIssue = asyncHandler(async (req, res) => {
   const { issueId } = req.params;
-  const { status, priority, assignedDepartment, assignedTo } = req.body;
+  const { status, priority, assignedDepartment, assignedTo, note } = req.body;
 
   const issue = await CivicIssue.findById(issueId);
 
@@ -234,6 +292,8 @@ export const updateCivicIssue = asyncHandler(async (req, res) => {
     throw new ApiError(403, 'Not authorized to update this issue');
   }
 
+  const statusChanged = status && status !== issue.status;
+
   if (status) issue.status = status;
   if (priority) issue.priority = priority;
   if (assignedDepartment) issue.assignedDepartment = assignedDepartment;
@@ -244,10 +304,41 @@ export const updateCivicIssue = asyncHandler(async (req, res) => {
     issue.resolvedBy = req.user._id;
   }
 
+  // ── Accountability Log: record every status transition ───────────
+  if (statusChanged) {
+    issue.statusHistory.push({
+      status,
+      actor: req.user._id,
+      note: note || null,
+      timestamp: new Date()
+    });
+  }
+
   const updatedIssue = await issue.save();
 
   return res.status(200).json(
     new ApiResponse(200, updatedIssue, 'Civic issue updated successfully')
+  );
+});
+
+// Get status history/audit log for a single issue
+export const getCivicIssueStatusHistory = asyncHandler(async (req, res) => {
+  const { issueId } = req.params;
+
+  const issue = await CivicIssue.findById(issueId)
+    .select('statusHistory title status')
+    .populate('statusHistory.actor', 'name email role');
+
+  if (!issue) {
+    throw new ApiError(404, 'Civic issue not found');
+  }
+
+  return res.status(200).json(
+    new ApiResponse(200, {
+      title: issue.title,
+      currentStatus: issue.status,
+      history: issue.statusHistory
+    }, 'Status history retrieved successfully')
   );
 });
 
